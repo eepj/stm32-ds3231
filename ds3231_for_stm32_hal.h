@@ -26,6 +26,9 @@
 #define DS3231_A2_HOURS		0x0c
 #define DS3231_A2_DATE		0x0d
 
+#define DS3231_AXMY			7
+#define DS3231_DYDT			6
+
 #define DS3231_REG_CONTROL 	0x0e
 	#define DS3231_EOSC			7
 	#define DS3231_BBSQW		6
@@ -53,6 +56,10 @@
 typedef enum DS3231_Rate{
 	DS3231_1HZ, DS3231_1024HZ, DS3231_4096HZ, DS3231_8192HZ
 }DS3231_Rate;
+
+typedef enum DS3231_InterruptMode{
+	DS3231_SQUARE_WAVE_INTERRUPT, DS3231_ALARM_INTERRUPT
+}DS3231_InterruptMode;
 
 extern I2C_HandleTypeDef *_ds3231_ui2c;
 
@@ -82,7 +89,25 @@ void DS3231_SetSecond(uint8_t second);
 uint8_t DS3231_DecodeBCD(uint8_t bin);
 uint8_t DS3231_EncodeBCD(uint8_t dec);
 
+void DS3231_EnableBatterySquareWave(uint8_t enable);
+void DS3231_SetInterruptMode(DS3231_InterruptMode mode);
+void DS3231_SetRateSelect(DS3231_Rate rate);
+void DS3231_EnableOscillator(uint8_t enable);
+
+void DS3231_EnableAlarm2(uint8_t enable);
+void DS3231_SetAlarm2Minute(uint8_t minute, uint8_t match);
+void DS3231_SetAlarm2Hour(uint8_t hour, uint8_t match);
+void DS3231_SetAlarm2Date(uint8_t date, uint8_t match);
+void DS3231_SetAlarm2Day(uint8_t day, uint8_t match);
+
+void DS3231_EnableAlarm1(uint8_t enable);
+void DS3231_SetAlarm1Second(uint8_t second, uint8_t match);
+void DS3231_SetAlarm1Minute(uint8_t minute, uint8_t match);
+void DS3231_SetAlarm1Hour(uint8_t hour, uint8_t match);
+void DS3231_SetAlarm1Date(uint8_t date, uint8_t match);
+void DS3231_SetAlarm1Day(uint8_t day, uint8_t match);
+
 int8_t DS3231_GetTemperatureInteger();
-int8_t DS3231_GetTemperatureFraction();
+uint8_t DS3231_GetTemperatureFraction();
 
 #endif
