@@ -15,6 +15,11 @@ I2C_HandleTypeDef *_ds3231_ui2c;
  */
 void DS3231_Init(I2C_HandleTypeDef *hi2c) {
 	_ds3231_ui2c = hi2c;
+	DS3231_EnableAlarm1(DS3231_DISABLED);
+	DS3231_EnableAlarm2(DS3231_DISABLED);
+	DS3231_ClearAlarm1Flag();
+	DS3231_ClearAlarm2Flag();
+	DS3231_SetInterruptMode(DS3231_ALARM_INTERRUPT);
 }
 
 /**
@@ -39,7 +44,7 @@ uint8_t DS3231_GetRegByte(uint8_t regAddr) {
 	return val;
 }
 
-void DS3231_EnableBatterySqyareWave(uint8_t enable){
+void DS3231_EnableBatterySqyareWave(DS3231_State enable){
 	uint8_t control = DS3231_GetRegByte(DS3231_REG_CONTROL);
 	DS3231_SetRegByte(DS3231_REG_CONTROL, (control & 0xbf) | ((enable & 0x01) << DS3231_BBSQW));
 }
@@ -54,66 +59,92 @@ void DS3231_SetRateSelect(DS3231_Rate rate){
 	DS3231_SetRegByte(DS3231_REG_CONTROL, (control & 0xe7) | ((rate & 0x03) << DS3231_RS1));
 }
 
-void DS3231_EnableOscillator(uint8_t enable){
+void DS3231_EnableOscillator(DS3231_State enable){
 	uint8_t control = DS3231_GetRegByte(DS3231_REG_CONTROL);
 	DS3231_SetRegByte(DS3231_REG_CONTROL, (control & 0x7f) | ((!enable & 0x01) << DS3231_EOSC));
 }
 
-void DS3231_EnableAlarm2(uint8_t enable){
+void DS3231_EnableAlarm2(DS3231_State enable){
 	uint8_t control = DS3231_GetRegByte(DS3231_REG_CONTROL);
 	DS3231_SetRegByte(DS3231_REG_CONTROL, (control & 0xfd) | ((enable & 0x01) << DS3231_A2IE));
 	DS3231_SetInterruptMode(DS3231_ALARM_INTERRUPT);
 }
 
-void DS3231_SetAlarm2Minute(uint8_t minute, uint8_t match){
-	uint8_t a2m2 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(minute);
+void DS3231_ClearAlarm2Flag(){
+	uint8_t status = DS3231_GetRegByte(DS3231_REG_STATUS) & 0xfd;
+	DS3231_SetRegByte(DS3231_REG_STATUS, status & ~(0x01 << DS3231_A2F));
+}
+
+void DS3231_SetAlarm2Minute(uint8_t minute, DS3231_Match match){
+	uint8_t a2m2 = (match << DS3231_AXMY) | DS3231_EncodeBCD(minute);
 	DS3231_SetRegByte(DS3231_A2_MINUTE, a2m2);
 }
 
-void DS3231_SetAlarm2Hour(uint8_t hour, uint8_t match){
-	uint8_t a2m3 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(hour);
+void DS3231_SetAlarm2Hour(uint8_t hour, DS3231_Match match){
+	uint8_t a2m3 = (match << DS3231_AXMY) | DS3231_EncodeBCD(hour);
 	DS3231_SetRegByte(DS3231_A2_HOURS, a2m3);
 }
 
-void DS3231_SetAlarm2Date(uint8_t date, uint8_t match){
-	uint8_t a2m4 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(date);
+void DS3231_SetAlarm2Date(uint8_t date, DS3231_Match match){
+	uint8_t a2m4 = (match << DS3231_AXMY) | DS3231_EncodeBCD(date);
 	DS3231_SetRegByte(DS3231_A2_DATE, a2m4);
 }
 
-void DS3231_SetAlarm2Day(uint8_t day, uint8_t match){
-	uint8_t a2m4 = (!match << DS3231_AXMY)| (0x01 << DS3231_DYDT) | DS3231_EncodeBCD(day);
+void DS3231_SetAlarm2Day(uint8_t day, DS3231_Match match){
+	uint8_t a2m4 = (match << DS3231_AXMY)| (0x01 << DS3231_DYDT) | DS3231_EncodeBCD(day);
 	DS3231_SetRegByte(DS3231_A2_DATE, a2m4);
 }
 
-void DS3231_EnableAlarm1(uint8_t enable){
+void DS3231_EnableAlarm1(DS3231_State enable){
 	uint8_t control = DS3231_GetRegByte(DS3231_REG_CONTROL);
 	DS3231_SetRegByte(DS3231_REG_CONTROL, (control & 0xfe) | ((enable & 0x01) << DS3231_A1IE));
 	DS3231_SetInterruptMode(DS3231_ALARM_INTERRUPT);
 }
 
-void DS3231_SetAlarm1Second(uint8_t second, uint8_t match){
-	uint8_t a1m1 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(second);
+void DS3231_ClearAlarm1Flag(){
+	uint8_t status = DS3231_GetRegByte(DS3231_REG_STATUS) & 0xfe;
+	DS3231_SetRegByte(DS3231_REG_STATUS, status & ~(0x01 << DS3231_A1F));
+}
+
+void DS3231_SetAlarm1Second(uint8_t second, DS3231_Match match){
+	uint8_t a1m1 = (match << DS3231_AXMY) | DS3231_EncodeBCD(second);
 	DS3231_SetRegByte(DS3231_A1_SECOND, a1m1);
 }
 
-void DS3231_SetAlarm1Minute(uint8_t minute, uint8_t match){
-	uint8_t a1m2 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(minute);
+void DS3231_SetAlarm1Minute(uint8_t minute, DS3231_Match match){
+	uint8_t a1m2 = (match << DS3231_AXMY) | DS3231_EncodeBCD(minute);
 	DS3231_SetRegByte(DS3231_A1_MINUTE, a1m2);
 }
 
-void DS3231_SetAlarm1Hour(uint8_t hour, uint8_t match){
-	uint8_t a1m3 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(hour);
+void DS3231_SetAlarm1Hour(uint8_t hour, DS3231_Match match){
+	uint8_t a1m3 = (match << DS3231_AXMY) | DS3231_EncodeBCD(hour);
 	DS3231_SetRegByte(DS3231_A1_HOURS, a1m3);
 }
 
-void DS3231_SetAlarm1Date(uint8_t date, uint8_t match){
-	uint8_t a1m4 = (!match << DS3231_AXMY) | DS3231_EncodeBCD(date);
+void DS3231_SetAlarm1Date(uint8_t date, DS3231_Match match){
+	uint8_t a1m4 = (match << DS3231_AXMY) | DS3231_EncodeBCD(date);
 	DS3231_SetRegByte(DS3231_A1_DATE, a1m4);
 }
 
-void DS3231_SetAlarm1Day(uint8_t day, uint8_t match){
-	uint8_t a1m4 = (!match << DS3231_AXMY)| (0x01 << DS3231_DYDT) | DS3231_EncodeBCD(day);
-	DS3231_SetRegByte(DS3231_A2_DATE, a1m4);
+void DS3231_SetAlarm1Day(uint8_t day, DS3231_Match match){
+	uint8_t a1m4 = (match << DS3231_AXMY)| (0x01 << DS3231_DYDT) | DS3231_EncodeBCD(day);
+	DS3231_SetRegByte(DS3231_A1_DATE, a1m4);
+}
+
+uint8_t DS3231_IsOscillatorStopped(){
+	return (DS3231_GetRegByte(DS3231_REG_STATUS) >> DS3231_OSF) & 0x01;
+}
+
+uint8_t DS3231_Is32kHzEnabled(){
+	return (DS3231_GetRegByte(DS3231_REG_STATUS) >> DS3231_EN32KHZ) & 0x01;
+}
+
+uint8_t DS3231_IsAlarm1Triggered(){
+	return (DS3231_GetRegByte(DS3231_REG_STATUS) >> DS3231_A1F) & 0x01;
+}
+
+uint8_t DS3231_IsAlarm2Triggered(){
+	return (DS3231_GetRegByte(DS3231_REG_STATUS) >> DS3231_A2F) & 0x01;
 }
 
 /**
@@ -250,6 +281,11 @@ uint8_t DS3231_DecodeBCD(uint8_t bin) {
  */
 uint8_t DS3231_EncodeBCD(uint8_t dec) {
 	return (dec % 10 + ((dec / 10) << 4));
+}
+
+void DS3231_Enable32kHzOutput(DS3231_State enable){
+	uint8_t status = DS3231_GetRegByte(DS3231_REG_STATUS) & 0xfb;
+	DS3231_SetRegByte(DS3231_REG_STATUS, status | (enable << DS3231_EN32KHZ));
 }
 
 int8_t DS3231_GetTemperatureInteger(){
