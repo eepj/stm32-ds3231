@@ -6,22 +6,48 @@
 #include "main.h"
 /*----------------------------------------------------------------------------*/
 #define DS3231_I2C_ADDR 	0x68
+
 #define DS3231_REG_SECOND 	0x00
 #define DS3231_REG_MINUTE 	0x01
 #define DS3231_REG_HOUR  	0x02
 #define DS3231_REG_DOW    	0x03
+
 #define DS3231_REG_DATE   	0x04
 #define DS3231_REG_MONTH  	0x05
+	#define DS3231_CENTURY 		7
 #define DS3231_REG_YEAR   	0x06
+
+#define DS3231_A1_SECOND	0x07
+#define DS3231_A1_MINUTE	0x08
+#define DS3231_A1_HOURS		0x09
+#define DS3231_A1_DATE		0x0a
+
+#define DS3231_A2_MINUTE	0x0b
+#define DS3231_A2_HOURS		0x0c
+#define DS3231_A2_DATE		0x0d
+
 #define DS3231_REG_CONTROL 	0x0e
-#define DS3231_EOSC			7
-#define DS3231_BBSQW		6
-#define DS3231_CONV			5
-#define DS3231_RS2			4
-#define DS3231_RS1			3
-#define DS3231_INTCN		2
-#define DS3231_A2IE			1
-#define DS3231_A1IE			0
+	#define DS3231_EOSC			7
+	#define DS3231_BBSQW		6
+	#define DS3231_CONV			5
+	#define DS3231_RS2			4
+	#define DS3231_RS1			3
+	#define DS3231_INTCN		2
+	#define DS3231_A2IE			1
+	#define DS3231_A1IE			0
+
+#define DS3231_STATUS		0x0f
+	#define DS3231_OSF			7
+	#define DS3231_EN32KHZ		3
+	#define DS3231_BSY			2
+	#define DS3231_A2F			1
+	#define DS3231_A1F			0
+
+#define DS3231_AGING		0x10
+
+#define DS3231_TEMP_MSB		0x11
+#define DS3231_TEMP_LSB		0x12
+
 #define DS3231_TIMEOUT		HAL_MAX_DELAY
 /*----------------------------------------------------------------------------*/
 typedef enum DS3231_Rate{
@@ -55,5 +81,8 @@ void DS3231_SetSecond(uint8_t second);
 
 uint8_t DS3231_DecodeBCD(uint8_t bin);
 uint8_t DS3231_EncodeBCD(uint8_t dec);
+
+int8_t DS3231_GetTemperatureInteger();
+int8_t DS3231_GetTemperatureFraction();
 
 #endif
