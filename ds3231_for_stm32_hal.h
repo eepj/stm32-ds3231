@@ -14,14 +14,23 @@
 #define DS3231_REG_MONTH  	0x05
 #define DS3231_REG_YEAR   	0x06
 #define DS3231_REG_CONTROL 	0x0e
+#define DS3231_EOSC			7
+#define DS3231_BBSQW		6
+#define DS3231_CONV			5
+#define DS3231_RS2			4
+#define DS3231_RS1			3
+#define DS3231_INTCN		2
+#define DS3231_A2IE			1
+#define DS3231_A1IE			0
 #define DS3231_TIMEOUT		HAL_MAX_DELAY
 /*----------------------------------------------------------------------------*/
+typedef enum DS3231_Rate{
+	DS3231_1HZ, DS3231_1024HZ, DS3231_4096HZ, DS3231_8192HZ
+}DS3231_Rate;
+
 extern I2C_HandleTypeDef *_ds3231_ui2c;
 
 void DS3231_Init(I2C_HandleTypeDef *hi2c);
-
-void DS3231_SetClockHalt(uint8_t halt);
-uint8_t DS3231_GetClockHalt(void);
 
 void DS3231_SetRegByte(uint8_t regAddr, uint8_t val);
 uint8_t DS3231_GetRegByte(uint8_t regAddr);
@@ -34,8 +43,6 @@ uint16_t DS3231_GetYear(void);
 uint8_t DS3231_GetHour(void);
 uint8_t DS3231_GetMinute(void);
 uint8_t DS3231_GetSecond(void);
-int8_t DS3231_GetTimeZoneHour(void);
-uint8_t DS3231_GetTimeZoneMin(void);
 
 void DS3231_SetDayOfWeek(uint8_t dow);
 void DS3231_SetDate(uint8_t date);
@@ -45,7 +52,6 @@ void DS3231_SetYear(uint16_t year);
 void DS3231_SetHour(uint8_t hour_24mode);
 void DS3231_SetMinute(uint8_t minute);
 void DS3231_SetSecond(uint8_t second);
-void DS3231_SetTimeZone(int8_t hr, uint8_t min);
 
 uint8_t DS3231_DecodeBCD(uint8_t bin);
 uint8_t DS3231_EncodeBCD(uint8_t dec);
