@@ -77,29 +77,29 @@ void DS3231_ClearAlarm2Flag(){
 
 void DS3231_SetAlarm2Minute(uint8_t minute){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A2_MINUTE) & 0x80;
-	uint8_t a2m2 = temp | DS3231_EncodeBCD(minute);
+	uint8_t a2m2 = temp | (DS3231_EncodeBCD(minute) & 0x3f);
 	DS3231_SetRegByte(DS3231_A2_MINUTE, a2m2);
 }
 
 void DS3231_SetAlarm2Hour(uint8_t hour){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A2_HOUR) & 0x80;
-	uint8_t a2m3 = temp | DS3231_EncodeBCD(hour);
+	uint8_t a2m3 = temp | (DS3231_EncodeBCD(hour) & 0x3f);
 	DS3231_SetRegByte(DS3231_A2_HOUR, a2m3);
 }
 
 void DS3231_SetAlarm2Date(uint8_t date){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A2_DATE) & 0x80;
-	uint8_t a2m4 = temp | DS3231_EncodeBCD(date);
+	uint8_t a2m4 = temp | (DS3231_EncodeBCD(date) & 0x3f);
 	DS3231_SetRegByte(DS3231_A2_DATE, a2m4);
 }
 
 void DS3231_SetAlarm2Day(uint8_t day){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A2_DATE) & 0x80;
-	uint8_t a2m4 = temp | (0x01 << DS3231_DYDT) | DS3231_EncodeBCD(day);
+	uint8_t a2m4 = temp | (0x01 << DS3231_DYDT) | (DS3231_EncodeBCD(day) & 0x3f);
 	DS3231_SetRegByte(DS3231_A2_DATE, a2m4);
 }
 
-void DS3231_SetAlarm2Mode(DS3231_AlarmMode alarmMode){
+void DS3231_SetAlarm2Mode(DS3231_Alarm2Mode alarmMode){
 	uint8_t temp;
 	temp = DS3231_GetRegByte(DS3231_A1_MINUTE) & 0x7f;
 	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));	
@@ -122,35 +122,35 @@ void DS3231_ClearAlarm1Flag(){
 
 void DS3231_SetAlarm1Second(uint8_t second){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A1_SECOND) & 0x80;
-	uint8_t a1m1 = temp | DS3231_EncodeBCD(second);
+	uint8_t a1m1 = temp | (DS3231_EncodeBCD(second) & 0x3f);
 	DS3231_SetRegByte(DS3231_A1_SECOND, a1m1);
 }
 
 void DS3231_SetAlarm1Minute(uint8_t minute){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A1_MINUTE) & 0x80;
-	uint8_t a1m2 = temp | DS3231_EncodeBCD(minute);
+	uint8_t a1m2 = temp | (DS3231_EncodeBCD(minute) & 0x3f);
 	DS3231_SetRegByte(DS3231_A1_MINUTE, a1m2);
 }
 
 void DS3231_SetAlarm1Hour(uint8_t hour){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A1_HOUR) & 0x80;
-	uint8_t a1m3 = temp | DS3231_EncodeBCD(hour);
+	uint8_t a1m3 = temp | (DS3231_EncodeBCD(hour) & 0x3f);
 	DS3231_SetRegByte(DS3231_A1_HOUR, a1m3);
 }
 
 void DS3231_SetAlarm1Date(uint8_t date){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A1_DATE) & 0x80;
-	uint8_t a1m4 = temp | DS3231_EncodeBCD(date);
+	uint8_t a1m4 = temp | (DS3231_EncodeBCD(date) & 0x3f);
 	DS3231_SetRegByte(DS3231_A1_DATE, a1m4);
 }
 
 void DS3231_SetAlarm1Day(uint8_t day){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A1_DATE) & 0x80;
-	uint8_t a1m4 = temp | (0x01 << DS3231_DYDT) | DS3231_EncodeBCD(day);
+	uint8_t a1m4 = temp | (0x01 << DS3231_DYDT) | (DS3231_EncodeBCD(day) & 0x3f);
 	DS3231_SetRegByte(DS3231_A1_DATE, a1m4);
 }
 
-void DS3231_SetAlarm1Mode(DS3231_AlarmMode alarmMode){
+void DS3231_SetAlarm1Mode(DS3231_AlarmMode alarm1Mode){
 	uint8_t temp;
 	temp = DS3231_GetRegByte(DS3231_A1_SECOND) & 0x7f;
 	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));
