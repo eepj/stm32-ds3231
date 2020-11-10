@@ -102,9 +102,9 @@ void DS3231_SetAlarm2Day(uint8_t day){
 void DS3231_SetAlarm2Mode(DS3231_AlarmMode alarmMode){
 	uint8_t temp;
 	temp = DS3231_GetRegByte(DS3231_A1_MINUTE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01)) << DS3231_AXMY);	
+	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));	
 	temp = DS3231_GetRegByte(DS3231_A1_HOUR) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 1) & 0x01)) << DS3231_AXMY);
+	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 1) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_DATE) & 0x7f;
 	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 2) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
 }
@@ -153,13 +153,13 @@ void DS3231_SetAlarm1Day(uint8_t day){
 void DS3231_SetAlarm1Mode(DS3231_AlarmMode alarmMode){
 	uint8_t temp;
 	temp = DS3231_GetRegByte(DS3231_A1_SECOND) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01)) << DS3231_AXMY);
+	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_MINUTE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 1) & 0x01)) << DS3231_AXMY));	
+	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 1) & 0x01) << DS3231_AXMY));	
 	temp = DS3231_GetRegByte(DS3231_A1_HOUR) & 0x7f;
 	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 2) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_DATE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (=((alarmMode >> 3) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
+	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 3) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
 }
 
 uint8_t DS3231_IsOscillatorStopped(){
