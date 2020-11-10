@@ -74,7 +74,7 @@ typedef enum D3231_Alarm1Mode{
 }DS3231_Alarm1Mode;
 
 typedef enum D3231_Alarm2Mode{
-	DS3231_A2_EVERY_M = 0x07, DS3231_A2_MATCH_M = 0x06, DS3231_A2_MATCH_M_H = 0x04, DS3231_A2_MATCH_M_H_DATE = 0x00, DS3231_A2_MATCH_M_H_DAY = 0x80, 
+	DS3231_A2_EVERY_M = 0x07, DS3231_A2_MATCH_M = 0x06, DS3231_A2_MATCH_M_H = 0x04, DS3231_A2_MATCH_M_H_DATE = 0x00, DS3231_A2_MATCH_M_H_DAY = 0x80,
 }DS3231_Alarm2Mode;
 
 extern I2C_HandleTypeDef *_ds3231_ui2c;
@@ -102,6 +102,9 @@ void DS3231_SetHour(uint8_t hour_24mode);
 void DS3231_SetMinute(uint8_t minute);
 void DS3231_SetSecond(uint8_t second);
 
+void DS3231_SetFullTime(uint8_t  hour_24mode, uint8_t minute, uint8_t second);
+void DS3231_SetFullDate(uint8_t date, uint8_t month, uint8_t dow, uint16_t year);
+
 uint8_t DS3231_DecodeBCD(uint8_t bin);
 uint8_t DS3231_EncodeBCD(uint8_t dec);
 
@@ -111,6 +114,7 @@ void DS3231_SetRateSelect(DS3231_Rate rate);
 void DS3231_EnableOscillator(DS3231_State enable);
 
 void DS3231_EnableAlarm2(DS3231_State enable);
+void DS3231_SetAlarm2Mode(DS3231_Alarm2Mode alarmMode);
 void DS3231_ClearAlarm2Flag();
 void DS3231_SetAlarm2Minute(uint8_t minute);
 void DS3231_SetAlarm2Hour(uint8_t hour);
@@ -118,6 +122,7 @@ void DS3231_SetAlarm2Date(uint8_t date);
 void DS3231_SetAlarm2Day(uint8_t day);
 
 void DS3231_EnableAlarm1(DS3231_State enable);
+void DS3231_SetAlarm1Mode(DS3231_Alarm1Mode alarmMode);
 void DS3231_ClearAlarm1Flag();
 void DS3231_SetAlarm1Second(uint8_t second);
 void DS3231_SetAlarm1Minute(uint8_t minute);

@@ -102,11 +102,11 @@ void DS3231_SetAlarm2Day(uint8_t day){
 void DS3231_SetAlarm2Mode(DS3231_Alarm2Mode alarmMode){
 	uint8_t temp;
 	temp = DS3231_GetRegByte(DS3231_A1_MINUTE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));	
+	DS3231_SetRegByte(DS3231_A2_MINUTE, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_HOUR) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 1) & 0x01) << DS3231_AXMY));
+	DS3231_SetRegByte(DS3231_A2_HOUR, temp | (((alarmMode >> 1) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_DATE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 2) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
+	DS3231_SetRegByte(DS3231_A2_DATE, temp | (((alarmMode >> 2) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
 }
 
 void DS3231_EnableAlarm1(DS3231_State enable){
@@ -150,16 +150,16 @@ void DS3231_SetAlarm1Day(uint8_t day){
 	DS3231_SetRegByte(DS3231_A1_DATE, a1m4);
 }
 
-void DS3231_SetAlarm1Mode(DS3231_AlarmMode alarm1Mode){
+void DS3231_SetAlarm1Mode(DS3231_Alarm1Mode alarmMode){
 	uint8_t temp;
 	temp = DS3231_GetRegByte(DS3231_A1_SECOND) & 0x7f;
 	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 0) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_MINUTE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 1) & 0x01) << DS3231_AXMY));	
+	DS3231_SetRegByte(DS3231_A1_MINUTE, temp | (((alarmMode >> 1) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_HOUR) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 2) & 0x01) << DS3231_AXMY));
+	DS3231_SetRegByte(DS3231_A1_HOUR, temp | (((alarmMode >> 2) & 0x01) << DS3231_AXMY));
 	temp = DS3231_GetRegByte(DS3231_A1_DATE) & 0x7f;
-	DS3231_SetRegByte(DS3231_A1_SECOND, temp | (((alarmMode >> 3) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
+	DS3231_SetRegByte(DS3231_A1_DATE, temp | (((alarmMode >> 3) & 0x01) << DS3231_AXMY) | (alarmMode & 0x80));
 }
 
 uint8_t DS3231_IsOscillatorStopped(){
@@ -294,6 +294,19 @@ void DS3231_SetMinute(uint8_t minute) {
  */
 void DS3231_SetSecond(uint8_t second) {
 	DS3231_SetRegByte(DS3231_REG_SECOND, DS3231_EncodeBCD(second));
+}
+
+void DS3231_SetFullTime(uint8_t  hour_24mode, uint8_t minute, uint8_t second){
+	DS3231_SetHour(hour_24mode);
+	DS3231_SetMinute(minute);
+	DS3231_SetSecond(second);
+}
+
+void DS3231_SetFullDate(uint8_t date, uint8_t month, uint8_t dow, uint16_t year){
+	DS3231_SetDate(date);
+	DS3231_SetMonth(month);
+	DS3231_SetDayOfWeek(dow);
+	DS3231_SetYear(year);
 }
 
 /**
