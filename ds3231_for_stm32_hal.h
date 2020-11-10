@@ -19,11 +19,11 @@
 
 #define DS3231_A1_SECOND	0x07
 #define DS3231_A1_MINUTE	0x08
-#define DS3231_A1_HOURS		0x09
+#define DS3231_A1_HOUR		0x09
 #define DS3231_A1_DATE		0x0a
 
 #define DS3231_A2_MINUTE	0x0b
-#define DS3231_A2_HOURS		0x0c
+#define DS3231_A2_HOUR		0x0c
 #define DS3231_A2_DATE		0x0d
 
 #define DS3231_AXMY			7
@@ -109,18 +109,18 @@ void DS3231_EnableOscillator(DS3231_State enable);
 
 void DS3231_EnableAlarm2(DS3231_State enable);
 void DS3231_ClearAlarm2Flag();
-void DS3231_SetAlarm2Minute(uint8_t minute, uint8_t match);
-void DS3231_SetAlarm2Hour(uint8_t hour, uint8_t match);
-void DS3231_SetAlarm2Date(uint8_t date, uint8_t match);
-void DS3231_SetAlarm2Day(uint8_t day, uint8_t match);
+void DS3231_SetAlarm2Minute(uint8_t minute);
+void DS3231_SetAlarm2Hour(uint8_t hour);
+void DS3231_SetAlarm2Date(uint8_t date);
+void DS3231_SetAlarm2Day(uint8_t day);
 
 void DS3231_EnableAlarm1(DS3231_State enable);
 void DS3231_ClearAlarm1Flag();
-void DS3231_SetAlarm1Second(uint8_t second, uint8_t match);
-void DS3231_SetAlarm1Minute(uint8_t minute, uint8_t match);
-void DS3231_SetAlarm1Hour(uint8_t hour, uint8_t match);
-void DS3231_SetAlarm1Date(uint8_t date, uint8_t match);
-void DS3231_SetAlarm1Day(uint8_t day, uint8_t match);
+void DS3231_SetAlarm1Second(uint8_t second);
+void DS3231_SetAlarm1Minute(uint8_t minute);
+void DS3231_SetAlarm1Hour(uint8_t hour);
+void DS3231_SetAlarm1Date(uint8_t date);
+void DS3231_SetAlarm1Day(uint8_t day);
 
 void DS3231_Enable32kHzOutput(DS3231_State enable);
 
