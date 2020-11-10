@@ -1,5 +1,5 @@
 # DS3231_for_STM32_HAL
-An STM32 HAL library written for the DS3231 real-time clock IC. 
+An STM32 HAL library written for the DS3231 real-time clock IC. Documentation to be updated.
 
 ### STM32CubeMX setup
 * In STM32CubeMX, set I2C1 to "I2C" and USART1 to "asynchronous"
