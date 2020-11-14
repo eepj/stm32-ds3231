@@ -1,6 +1,5 @@
 # DS3231_for_STM32_HAL
-An STM32 HAL library written for the DS3231 real-time clock IC. Documentation to be updated.
-
+An STM32 HAL library written for the DS3231 real-time clock IC.
 ### STM32CubeMX setup
 * In STM32CubeMX, set I2C1 to "I2C" and USART1 to "asynchronous"
 * Set up an external interrupt pin (say PB0) in GPIO settings, use "external interrupt mode with falling edge trigger detection" and "pull-up" settings.
