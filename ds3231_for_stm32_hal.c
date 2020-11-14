@@ -294,7 +294,7 @@ uint8_t DS3231_GetMonth(void) {
 
 /**
  * @brief Gets the current year.
- * @return Year, 2000 to 2099.
+ * @return Year, 2000 to 2199.
  */
 uint16_t DS3231_GetYear(void) {
 	uint8_t decYear = DS3231_DecodeBCD(DS3231_GetRegByte(DS3231_REG_YEAR));
