@@ -68,24 +68,17 @@ typedef enum DS3231_Rate{
 ```
 
 #### Alarms
-* Enable/disable alarms with:
+* With alarm interrupt mode selected, enable/disable alarms with:
 ```ruby
 void DS3231_EnableAlarm1(DS3231_State enable);
 void DS3231_EnableAlarm2(DS3231_State enable);
 ```
-* Possible modes: enabled or disabled.
-```ruby
-typedef enum DS3231_State{
-	DS3231_DISABLED, DS3231_ENABLED
-}DS3231_State;
-```
-
 * Set alarm mode with:
 ```ruby
 void DS3231_SetAlarm1Mode(DS3231_Alarm1Mode alarmMode);
 void DS3231_SetAlarm2Mode(DS3231_Alarm2Mode alarmMode);
 ```
-* Possible alarm modes (refer to table 2 of datasheets):
+* Possible alarm modes (refer to table 2 of [datasheets](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf)):
 ```ruby
 typedef enum D3231_Alarm1Mode{
     DS3231_A1_EVERY_S = 0x0f, DS3231_A1_MATCH_S = 0x0e, DS3231_A1_MATCH_S_M = 0x0c,
@@ -99,12 +92,13 @@ typedef enum D3231_Alarm2Mode{
 ```
 
  ### Interrupts
+ #### Checking for an alarm
  * Check for an alarm flag with:
  ```ruby
 uint8_t DS3231_IsAlarm1Triggered();
 uint8_t DS3231_IsAlarm2Triggered();
  ```
- 
+ #### Clearing an alarm
  * Clear an alarm flag with:
  ```ruby
  void DS3231_ClearAlarm1Flag();
