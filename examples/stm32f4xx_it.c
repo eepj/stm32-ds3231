@@ -211,12 +211,12 @@ void EXTI0_IRQHandler(void)
 			DS3231_GetTemperatureInteger(), DS3231_GetTemperatureFraction());
 	if(DS3231_IsAlarm1Triggered()){
 		printf("Alarm 1 triggered\n");
-	}else if(DS3231_IsAlarm2Triggered()){
-		DS3231_ClearAlarm2Flag();
+	}
+	if(DS3231_IsAlarm2Triggered()){
 		printf("Alarm 2 triggered\n");
 	}
 	DS3231_ClearAlarm1Flag();
-	DS3231_ClearAlarm1Flag();
+	DS3231_ClearAlarm2Flag();
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
