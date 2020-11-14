@@ -204,19 +204,18 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
-	char *day[7] = { "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" };
-	printf("%02d:%02d:%02d, %02d-%02d-%04d%(%s), %d.%02d\n", DS3231_GetHour(),
-			DS3231_GetMinute(), DS3231_GetSecond(), DS3231_GetDate(),
-			DS3231_GetMonth(), DS3231_GetYear(), day[DS3231_GetDayOfWeek()-1],
+	char *day[7] = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+	printf("ISO8601 FORMAT: %04d-%02d-%02dT%02d:%02d:%02d %s %d.%02d\n", DS3231_GetYear(),
+			DS3231_GetMonth(), DS3231_GetDate(), DS3231_GetHour(), DS3231_GetMinute(), DS3231_GetSecond(), day[DS3231_GetDayOfWeek()-1],
 			DS3231_GetTemperatureInteger(), DS3231_GetTemperatureFraction());
 	if(DS3231_IsAlarm1Triggered()){
 		printf("Alarm 1 triggered\n");
-	}
-	if(DS3231_IsAlarm2Triggered()){
+	}else if(DS3231_IsAlarm2Triggered()){
+		DS3231_ClearAlarm2Flag();
 		printf("Alarm 2 triggered\n");
 	}
 	DS3231_ClearAlarm1Flag();
-	DS3231_ClearAlarm2Flag();
+	DS3231_ClearAlarm1Flag();
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
