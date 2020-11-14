@@ -92,6 +92,10 @@ typedef enum D3231_Alarm2Mode{
 ```
 
  ### Interrupts
+ * In `stm32f*xx_it.c` (interrupt service routine file), include:
+```ruby
+#include "ds3231_for_stm32_hal.h"
+```
  #### Checking for an alarm
  * Check for an alarm flag with:
  ```ruby
