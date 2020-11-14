@@ -61,7 +61,7 @@ typedef enum DS3231_InterruptMode{
 ```ruby
 void DS3231_SetRateSelect(DS3231_Rate rate);
 ```
-* Possible rates 1 Hz, 1.024 kHz, 4.096 kHz, 8.912 kHz.
+* Possible rates 1 Hz, 1.024 kHz, 4.096 kHz or 8.912 kHz.
 ```ruby
 typedef enum DS3231_Rate{
 	DS3231_1HZ, DS3231_1024HZ, DS3231_4096HZ, DS3231_8192HZ
@@ -74,7 +74,7 @@ typedef enum DS3231_Rate{
 void DS3231_EnableAlarm1(DS3231_State enable);
 void DS3231_EnableAlarm2(DS3231_State enable);
 ```
-* Possible modes: enable, disable.
+* Possible modes: enabled or disabled.
 ```ruby
 typedef enum DS3231_State{
 	DS3231_DISABLED, DS3231_ENABLED
