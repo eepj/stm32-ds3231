@@ -23,7 +23,7 @@ An STM32 HAL library written for the DS3231 real-time clock IC.
 ```
 
 #### Initialization
-* In `main.c`, before the main loop and after the system inits, call the DS3231 init function:
+* In `main.c`, before the main loop and after the system inits, call the DS3231 init function, and pass the corresponding I2C handle:
  ```ruby
 DS3231_Init(&hi2c1);
  ```
