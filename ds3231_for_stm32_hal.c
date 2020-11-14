@@ -10,7 +10,7 @@ extern "C"{
 I2C_HandleTypeDef *_ds3231_ui2c;
 
 /**
- * @brief Initializes the DS3231 module.
+ * @brief Initializes the DS3231 module. Set clock halt bit to 0 to start timing.
  * @param hi2c User I2C handle pointer.
  */
 void DS3231_Init(I2C_HandleTypeDef *hi2c) {
@@ -112,9 +112,9 @@ void DS3231_SetAlarm2Minute(uint8_t minute){
  * @brief Set alarm 2 hour to match. Does not change alarm 2 matching mode.
  * @param hour Hour to match in 24h format, 0 to 23.
  */
-void DS3231_SetAlarm2Hour(uint8_t hour){
+void DS3231_SetAlarm2Hour(uint8_t hour_24mode){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A2_HOUR) & 0x80;
-	uint8_t a2m3 = temp | (DS3231_EncodeBCD(hour) & 0x3f);
+	uint8_t a2m3 = temp | (DS3231_EncodeBCD(hour_24mode) & 0x3f);
 	DS3231_SetRegByte(DS3231_A2_HOUR, a2m3);
 }
 
@@ -194,9 +194,9 @@ void DS3231_SetAlarm1Minute(uint8_t minute){
  * @brief Set alarm 1 hour to match. Does not change alarm 1 matching mode.
  * @param hour Hour, 0 to 59.
  */
-void DS3231_SetAlarm1Hour(uint8_t hour){
+void DS3231_SetAlarm1Hour(uint8_t hour_24mode){
 	uint8_t temp = DS3231_GetRegByte(DS3231_A1_HOUR) & 0x80;
-	uint8_t a1m3 = temp | (DS3231_EncodeBCD(hour) & 0x3f);
+	uint8_t a1m3 = temp | (DS3231_EncodeBCD(hour_24mode) & 0x3f);
 	DS3231_SetRegByte(DS3231_A1_HOUR, a1m3);
 }
 
