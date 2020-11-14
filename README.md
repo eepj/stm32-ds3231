@@ -14,7 +14,6 @@ An STM32 HAL library written for the DS3231 real-time clock IC.
 
 ### IDE setup
 * In your IDE, include [`ds3231_for_stm32_hal.h`](./ds3231_for_stm32_hal.h) and [`ds3231_for_stm32_hal.c`](./ds3231_for_stm32_hal.c).
-* Complie and flash program to microcontroller.
 
 ### Main program
 #### Includes
