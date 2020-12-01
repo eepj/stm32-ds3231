@@ -204,18 +204,23 @@ void SysTick_Handler(void)
 void EXTI0_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI0_IRQn 0 */
+	//Day of week array
 	char *day[7] = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN" };
+	//ISO8601 format
 	printf("ISO8601 FORMAT: %04d-%02d-%02dT%02d:%02d:%02d %s %d.%02d\n", DS3231_GetYear(),
 			DS3231_GetMonth(), DS3231_GetDate(), DS3231_GetHour(), DS3231_GetMinute(), DS3231_GetSecond(), day[DS3231_GetDayOfWeek()-1],
 			DS3231_GetTemperatureInteger(), DS3231_GetTemperatureFraction());
+	//Check if any alarm is triggered
 	if(DS3231_IsAlarm1Triggered()){
 		printf("Alarm 1 triggered\n");
 	}else if(DS3231_IsAlarm2Triggered()){
 		DS3231_ClearAlarm2Flag();
 		printf("Alarm 2 triggered\n");
 	}
+	//For demonstration purpose, clear all flags
 	DS3231_ClearAlarm1Flag();
-	DS3231_ClearAlarm1Flag();
+	DS3231_ClearAlarm2Flag();
+	//Toggle LED, comment out if unnecessary
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   /* USER CODE END EXTI0_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
