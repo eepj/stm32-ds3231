@@ -108,21 +108,32 @@ int main(void) {
 	MX_USART1_UART_Init();
 	MX_I2C1_Init();
 	/* USER CODE BEGIN 2 */
+	//DS3231 init function. Pass I2C handle.
 	DS3231_Init(&hi2c1);
-
+	//Disable interrupts while we set interrupt configs.
 	__disable_irq();
-
+	//Set interrupt mode to square wave mode, enable square wave interrupt at pin 3.
 	DS3231_SetInterruptMode(DS3231_SQUARE_WAVE_INTERRUPT);
+	//Set interrupting frequency to 1 Hz.
 	DS3231_SetRateSelect(DS3231_1HZ);
+	//Set time.
 	DS3231_SetFullTime(23, 59, 50);
+	//Set date.
 	DS3231_SetFullDate(10, 11, 2, 2020);
-  for(uint8_t i = 0x00; i < 0x13; i++)
-    printr(i);
+	//Print all register values, for demonstration purpose
+  	for(uint8_t i = 0x00; i < 0x13; i++)
+    		printr(i);
+	//Enable interrupts after finishing.
 	__enable_irq();
+	
+	//Should show 5 interrupts, once every second.
 	HAL_Delay(5000);
 
+	//Set to alarm interrupt mode.
 	DS3231_SetInterruptMode(DS3231_ALARM_INTERRUPT);
 	DS3231_ClearAlarm1Flag();
+	
+	//Test alarm 1
 	DS3231_EnableAlarm1(DS3231_ENABLED);
 	DS3231_SetAlarm1Mode(DS3231_A1_MATCH_S_M_H_DATE);
 	DS3231_SetAlarm1Second(3);
@@ -130,6 +141,7 @@ int main(void) {
 	DS3231_SetAlarm1Hour(0);
 	DS3231_SetAlarm1Date(11);
 
+	//Test alarm 2
 	DS3231_ClearAlarm2Flag();
 	DS3231_EnableAlarm2(DS3231_ENABLED);
 	DS3231_SetAlarm2Mode(DS3231_A2_MATCH_M_H_DAY);
@@ -137,6 +149,7 @@ int main(void) {
 	DS3231_SetAlarm2Hour(0);
 	DS3231_SetAlarm2Day(3);
 
+	//Check if alarm behavior is correct
 	__enable_irq();
 	HAL_Delay(5000);
 	DS3231_SetFullTime(1, 59, 59);
