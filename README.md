@@ -116,13 +116,17 @@ uint8_t DS3231_IsAlarm2Triggered();
  ```
  
  ### Misc
- * The following are available:
+ * Enable 32kHz output:
  ```ruby
  void DS3231_Enable32kHzOutput(DS3231_State enable);
-
+```
+* Check for status:
+```ruby
 uint8_t DS3231_IsOscillatorStopped();
 uint8_t DS3231_Is32kHzEnabled();
-
+```
+* Temperature functions:
+```ruby
 int8_t DS3231_GetTemperatureInteger();
 uint8_t DS3231_GetTemperatureFraction();
  ```
