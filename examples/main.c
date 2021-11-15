@@ -62,9 +62,7 @@ static void MX_I2C1_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void printr(uint8_t reg) {
-	char hex[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
-			'C', 'D', 'E', 'F' };
-	printf("Reg 0x%c%c = ", hex[reg / 16], hex[reg % 16]);
+	printf("Reg 0x%02x = ", reg);
 	uint8_t val;
 	HAL_I2C_Master_Transmit(_ds3231_ui2c, DS3231_I2C_ADDR << 1, &reg, 1,
 			DS3231_TIMEOUT);
