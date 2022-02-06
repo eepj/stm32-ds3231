@@ -54,7 +54,7 @@ void DS3231_SetFullTime(uint8_t hour_24mode, uint8_t minute, uint8_t second);
 ```ruby
 void DS3231_SetInterruptMode(DS3231_InterruptMode mode);
 ```
-* Possible modes: square wave interrupt and alarm interrupt.
+* Options: square wave interrupt and alarm interrupt.
 ```ruby
 typedef enum DS3231_InterruptMode{
     DS3231_SQUARE_WAVE_INTERRUPT, DS3231_ALARM_INTERRUPT
@@ -65,7 +65,7 @@ typedef enum DS3231_InterruptMode{
 ```ruby
 void DS3231_SetRateSelect(DS3231_Rate rate);
 ```
-* Possible rates 1 Hz, 1.024 kHz, 4.096 kHz or 8.912 kHz.
+* Options: 1 Hz, 1.024 kHz, 4.096 kHz or 8.912 kHz.
 ```ruby
 typedef enum DS3231_Rate{
 	DS3231_1HZ, DS3231_1024HZ, DS3231_4096HZ, DS3231_8192HZ
@@ -83,7 +83,7 @@ void DS3231_EnableAlarm2(DS3231_State enable);
 void DS3231_SetAlarm1Mode(DS3231_Alarm1Mode alarmMode);
 void DS3231_SetAlarm2Mode(DS3231_Alarm2Mode alarmMode);
 ```
-* Possible alarm modes (refer to table 2 of [datasheets](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf)):
+* Options modes: (refer to table 2 of [datasheets](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf)):
 ```ruby
 typedef enum D3231_Alarm1Mode{
     DS3231_A1_EVERY_S = 0x0f, DS3231_A1_MATCH_S = 0x0e, DS3231_A1_MATCH_S_M = 0x0c,
