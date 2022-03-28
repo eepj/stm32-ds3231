@@ -18,23 +18,23 @@ An STM32 HAL library for the DS3231 real-time clock IC.
 ### Main program
 #### Includes
 * In `main.c` (main program body file), include:
-```ruby
+```c
 #include "ds3231_for_stm32_hal.h"
 ```
 
 #### Initialization
 * Initialization function:
-```ruby
+```c
 void DS3231_Init(I2C_HandleTypeDef *hi2c);
 ```
 
 * In `main.c`, before the main loop and after the system inits, call the DS3231 init function, and pass the corresponding I2C handle:
- ```ruby
+ ```c
 DS3231_Init(&hi2c1);
  ```
 #### Date and time settings
 * Date functions:
-```ruby
+```c
 void DS3231_SetDayOfWeek(uint8_t dow); // <-- Number of days since Sunday, 1 to 7.
 void DS3231_SetDate(uint8_t date);
 void DS3231_SetMonth(uint8_t month);
@@ -42,7 +42,7 @@ void DS3231_SetYear(uint16_t year);
 void DS3231_SetFullDate(uint8_t date, uint8_t month, uint8_t dow, uint16_t year);
 ```
 * Time functions:
-```ruby
+```c
 void DS3231_SetHour(uint8_t hour_24mode);
 void DS3231_SetMinute(uint8_t minute);
 void DS3231_SetSecond(uint8_t second);
@@ -51,22 +51,22 @@ void DS3231_SetFullTime(uint8_t hour_24mode, uint8_t minute, uint8_t second);
 
 #### Interrupt modes
 * Set interrupt mode with:
-```ruby
+```c
 void DS3231_SetInterruptMode(DS3231_InterruptMode mode);
 ```
 * Options: square wave interrupt and alarm interrupt.
-```ruby
+```c
 typedef enum DS3231_InterruptMode{
     DS3231_SQUARE_WAVE_INTERRUPT, DS3231_ALARM_INTERRUPT
 }DS3231_InterruptMode;
 ```
 #### Square wave output
 * With square wave interrupt mode selected, select interrupting rate with:
-```ruby
+```c
 void DS3231_SetRateSelect(DS3231_Rate rate);
 ```
 * Options: 1 Hz, 1.024 kHz, 4.096 kHz or 8.912 kHz.
-```ruby
+```c
 typedef enum DS3231_Rate{
 	DS3231_1HZ, DS3231_1024HZ, DS3231_4096HZ, DS3231_8192HZ
 }DS3231_Rate;
@@ -74,17 +74,17 @@ typedef enum DS3231_Rate{
 
 #### Alarms
 * With alarm interrupt mode selected, enable/disable alarms with:
-```ruby
+```c
 void DS3231_EnableAlarm1(DS3231_State enable);
 void DS3231_EnableAlarm2(DS3231_State enable);
 ```
 * Set alarm mode with:
-```ruby
+```c
 void DS3231_SetAlarm1Mode(DS3231_Alarm1Mode alarmMode);
 void DS3231_SetAlarm2Mode(DS3231_Alarm2Mode alarmMode);
 ```
 * Options modes: (refer to table 2 of [datasheets](https://datasheets.maximintegrated.com/en/ds/DS3231.pdf)):
-```ruby
+```c
 typedef enum D3231_Alarm1Mode{
     DS3231_A1_EVERY_S = 0x0f, DS3231_A1_MATCH_S = 0x0e, DS3231_A1_MATCH_S_M = 0x0c,
     DS3231_A1_MATCH_S_M_H = 0x08, DS3231_A1_MATCH_S_M_H_DATE = 0x00, DS3231_A1_MATCH_S_M_H_DAY = 0x80,
@@ -99,34 +99,34 @@ typedef enum D3231_Alarm2Mode{
  ### Interrupts
  #### Includes
  * In `stm32f*xx_it.c` (interrupt service routine file), include:
-```ruby
+```c
 #include "ds3231_for_stm32_hal.h"
 ```
  #### Checking for an alarm
  * Check for an alarm flag with:
- ```ruby
+ ```c
 uint8_t DS3231_IsAlarm1Triggered();
 uint8_t DS3231_IsAlarm2Triggered();
  ```
  #### Clearing an alarm
  * Clear an alarm flag with:
- ```ruby
+ ```c
  void DS3231_ClearAlarm1Flag();
  void DS3231_ClearAlarm2Flag();
  ```
  
  ### Misc
  * Enable 32kHz output:
- ```ruby
+ ```c
  void DS3231_Enable32kHzOutput(DS3231_State enable);
 ```
 * Check for status:
-```ruby
+```c
 uint8_t DS3231_IsOscillatorStopped();
 uint8_t DS3231_Is32kHzEnabled();
 ```
 * Temperature functions:
-```ruby
+```c
 int8_t DS3231_GetTemperatureInteger();
 uint8_t DS3231_GetTemperatureFraction();
  ```
